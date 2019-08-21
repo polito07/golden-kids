@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+header,
+section {
+    overflow-x: hidden;
+}
+
+
+
+header {
+    --Sniglet-font: "Sniglet", cursive;
+    --Rubik: "Rubik", cursive;
+    --Patua: "Patua One", cursive;
+    --Lobster: "lobster", cursive;
+    --light-black: #2e2c2caf;
+    --bggradient: linear-gradient(to bottom, #373b44, #4286f4);
+    --light-gray: rgba(255, 255, 255, 0.877);
+}
+
+header a {
+    font-family: var(--Single-font);
+    font-size: 0.9em;
+    color: whitesmoke;
+}
+
+header {
+    background: #373b44;
+    background: var(--bggradient);
+    
+    
+}
+
+header .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 7px;
+}
+
+header .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+
+header .dropdown-content a:hover {
+    background-color: #ddd;
+    border-radius: 7px;
+}
+
+header .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+header .nav-item:last-child {
+    padding-right: -20.5em;
+}
+
+header .nav-item {
+    padding: 0.9em;
+}
+
+header .nav-brand {
+    padding-left: 8rem;
+}
+
+header .nav-link:hover {
+    color: lightgrey;
+}
+
+header .row .col-md-5 {
+    padding: 4.2vmin 1vmin;
+}
+
+header .row .col-md-7 {
+    padding: 22vmin 1vmin;
+    padding-bottom: 35vmin;
+    font-family: var(--Rubik);
+    color: white;
+}
+
+header .row .col-md-5 img {
+    padding-top: 4vmin;
+    width: 90%;
+}
+
+header .container .col-md-7 h6 {
+    padding: 1vmin;
+    letter-spacing: 4px;
+}
+
+header .container .col-md-7 h1 {
+    font-size: 7vmin;
+    font-weight: bold;
+    padding: 0.1em 0em;
+}
+
+header .container .col-md-7 p {
+    padding: 1vmin 5vmin;
+
+}
+
+header .container .col-md-7 button {
+    border-radius: 30px;
+    font-weight: bold;
+}
+header .jumbotron{
+	background-color: transparent;
+}
+header .jumbotron h1, p {
+	color:whitesmoke;
+}
+.text-decoration-none{
+    text-decoration: none;
+}
+

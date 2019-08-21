@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <div class="container py-4">
+            <div class="card bg-danger text-white">
+                <div class="card-header">Error Interno!</div>
+                <div class="card-body">
+                    <h5 class="card-title">Lo sentimos <span th:text="${#httpServletRequest.remoteUser}"></span>, ha ocurrido un error interno. Trabajaremos para solucionarlo.</h5>
+                    <a th:href="@{/inicio}" class="btn btn-outline-light" role="button">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body>
+</html>

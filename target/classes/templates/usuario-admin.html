@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body style="background-color: #4286f4;">
+        <header th:replace="/layout :: header"></header>
+        <div class="col-sm-12" style="width: 600px; margin-left: 370px; margin-top: 20px; margin-bottom: 20px;">
+            <form class="form" id="formulario" method="post" th:action="@{/usuario/guardar}">
+                <div class="form-group">
+                    <label style="color: white;">Nombre: </label> 
+                    <input required type="text" class="form-control" name="nombre" th:value="${usuario.nombre}" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Apellido: </label> 
+                    <input required type="text" class="form-control" name="apellido" th:value="${usuario.apellido}" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">DNI: </label> 
+                    <input required type="text" class="form-control" name="dni" th:value="${usuario.dni}" pattern="[0-9]{7,9}"/>
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Email: </label> 
+                    <input type="text" class="form-control" name="mail" th:value="${usuario.mail}" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Nombre Usuario: </label> 
+                    <input required type="text" class="form-control" name="nombreUsuario" th:value="${usuario.nombreUsuario}" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Contraseña: </label> 
+                    <input required type="text" class="form-control" name="password" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Telefono: </label> 
+                    <input type="text" class="form-control" name="telefono" th:value="${usuario.telefono}" />
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Tipo de Perfil: </label>
+                    <select name="tipoPerfil" id="tipoPerfil" onchange="ocultarTipoDocente();">
+                        <option th:if="${rol.perfil != null}" selected="selected" th:value="${rol.perfil}"
+                                th:text="${rol.perfil}">
+                        </option>
+                        <option th:each="perfiles : ${T(com.goldenkids.springboot.web.app.models.TipoPerfil).values()}"
+                                th:value="${perfiles}"
+                                th:text="${perfiles}">      
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group" id="tipoDocente">
+                    <label style="color: white;">Tipo de Docente: </label>
+                    <select name="selectTipoDocente" id="selectTipoDocente" onchange="ocultarSalita();">
+                        <option th:if="${docente != null}" selected="selected" th:value="${docente.tipoDocente}"
+                                th:text="${docente.tipoDocente}">
+                        </option>
+                        <option th:each="perfiles : ${T(com.goldenkids.springboot.web.app.models.TipoDocente).values()}"
+                                th:value="${perfiles}"
+                                th:text="${perfiles}">      
+                        </option>
+                    </select>
+                </div>  
+                <div class="form-group" id="salita">
+                    <label style="color: white;">Salita: </label>
+                    <select name="selectSalitaId" id="selectSalitaId" >
+                        <option th:if="${salitaDocente != null}" selected="selected" th:value="${salitaDocente.id}"
+                                th:text="${salitaDocente.nombre}">
+                        </option>
+                        <option th:each="salita : ${salitas}"
+                                th:value="${salita.id}"
+                                th:text="${salita.nombre}">      
+                        </option>
+                    </select>
+                </div> 
+                <input style="margin: 5px;" type="submit" class="btn btn-primary" value="Guardar"/>
+                <a th:href="@{/usuario/listarusuarios}" style="float: left; margin: 5px;" class="btn btn-danger">Volver</a>
+                <input type="hidden" th:value="${accion}" name="accion"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            </form>
+        </div>
+        <footer th:replace="/layout :: footer"> </footer>
+        <script th:src="@{/js/docente.js}"></script>
+    </body>
+</html>

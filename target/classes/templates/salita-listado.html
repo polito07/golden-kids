@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Salida</th>
+                    <th>Id Salita</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="salita : ${salitas}">
+                    <td th:text="${salita.nombre}"></td>
+                    <td th:text="${salita.horaEntrada}"></td>
+                    <td th:text="${salita.horaSalida}"></td>
+                    <td th:text="${salita.id}"></td>
+                    <td><a th:href="@{/salita/modificar(id=${salita.id})}"><i
+                                class="fa fa-edit"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body>
+</html>

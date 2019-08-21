@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Salita</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="alumno : ${alumnos}">
+                    <td th:text="${alumno.nombre}"></td>
+                    <td th:text="${alumno.apellido}"></td>
+                    <td th:text="${alumno.dni}"></td>
+                    <td th:text="${#dates.format(alumno.fechaNacimiento,'dd/MM/YYYY')}"></td>
+                    <td th:if="${alumno.salita != null}" th:text="${alumno.salita.nombre}"></td>
+                    <td th:unless="${alumno.salita != null}"></td>
+                    <td><a th:href="@{/alumno/baja(dni=${alumno.dni})}"><i
+                                class="fa fa-window-close"></i></a> - <a
+                            th:href="@{/alumno/modificar(dni=${alumno.dni})}"><i
+                                class="fa fa-edit"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Perfil</th>
+                    <th>Fecha de Alta</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.nombre}"></td>
+                    <td th:text="${usuario.apellido}"></td>
+                    <td th:text="${usuario.dni}"></td>
+                    <td th:text="${usuario.mail}"></td>
+                    <td th:text="${usuario.telefono}"></td>
+                    <td th:text="${usuario.rol.perfil}"></td>
+                    <td th:text="${#dates.format(usuario.fechaAlta,'dd/MM/YYYY')}"></td>
+                    <td><a th:href="@{/usuario/baja(dni=${usuario.dni})}"><i
+                                class="fa fa-window-close"></i></a> - <a
+                            th:href="@{/usuario/modificar(dni=${usuario.dni})}"><i
+                                class="fa fa-edit"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body> 
+</html>

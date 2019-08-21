@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+#body {
+	background-color: #1ab5ff;
+	font-family: Helvetica;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+h1 {
+	margin: 0;
+}
+
+#container {
+	background-color: #ffffff;
+	width: 1200px;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 40px;
+}
+
+#header {
+	background-color: grey;
+	text-align: left;
+	padding: 10px;
+	color: white;
+}
+
+#content {
+	padding: 10px;
+}
+
+#main {
+	width: 600px;
+}
+
+#footer {
+	clear: both;
+	padding: 10px;
+	background-color: gray;
+	color: white;
+}
+
+.selected {
+	font-weight: bold;
+}

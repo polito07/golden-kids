@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Alumno</th>
+                    <th>Salita</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Baja</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="inscripcion : ${inscripciones}">
+                    <td th:text="${inscripcion.alumno.nombre} + ' ' + ${inscripcion.alumno.apellido}"></td>
+                    <td th:text="${inscripcion.salita.nombre}"></td>
+                    <td th:text="${#dates.format(inscripcion.fechaAlta,'dd/MM/YYYY')}"></td>
+                    <td th:text="${#dates.format(inscripcion.fechaBaja,'dd/MM/YYYY')}"></td>
+                    <td><a th:href="@{/inscripciones/modificar(id=${inscripcion.id})}"><i class="fa fa-edit"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body> 
+</html>

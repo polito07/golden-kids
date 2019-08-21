@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">  
+    <head th:replace="/layout :: head"></head>
+    <body>
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Salita</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="hijo : ${hijos}">
+                    <td th:text="${hijo.nombre}"></td>
+                    <td th:text="${hijo.apellido}"></td>
+                    <td th:text="${hijo.dni}"></td>
+                    <td th:text="${#dates.format(hijo.fechaNacimiento,'dd/MM/YYYY')}"></td>
+                    <td th:if="${hijo.salita} != null" th:text="${hijo.salita.nombre}"></td>
+                    <td th:unless="${hijo.salita} != null"></td>
+                    <td><a th:href="@{/actividades/detalle(dni=${hijo.dni})}">Ver Actividades <i class="far fa-eye"></i></a>            
+                </tr>
+            </tbody>
+        </table>
+        <footer th:replace="/layout :: footer"> </footer>
+    </body>
+</html>

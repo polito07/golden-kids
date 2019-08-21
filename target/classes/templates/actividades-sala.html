@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/layout :: head"></head>
+    <body style="background-color: #4286f4;">
+        <header th:replace="/layout :: header"></header>
+        <div th:replace="/layout :: errordisplay"></div>
+        <div th:replace="/layout :: successdisplay"></div>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <form sec:authorize="hasAuthority('DIRECTIVO')" class="form-inline my-2 my-lg-0" action="" method="GET">
+                    <label class="form-check-label" style="color: white; padding: 10px; margin-left: -10px;margin-bottom: 10px;">
+                        Seleccione el nombre del alumno a buscar: </label>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Buscar" name="q" id="q" th:value="${q}" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+                            style="color: white;">
+                        Buscar <i class="fa fa-search"></i>
+                    </button>
+                    <input type="hidden" th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}" />
+                </form>
+            </nav>
+            <tr th:each="alumno : ${alumnos}">
+                <div class="card mb-3" style="max-width: 1000px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <a th:href="@{'/actividades/detalle?dni=' + ${alumno.dni}}"><img
+                                    style="width: 70%; padding: 10px; margin-left: 10px;" th:if="${alumno.foto !=null}"
+                                    class="card-img rounded" th:src="@{'/uploads/' + ${alumno.foto}}"
+                                    th:alt="${alumno.foto}" /></a>
+                            <!--Si no hay ninguna foto cargada para el alumno, cargo una por defecto-->
+                            <a th:href="@{'/actividades/detalle?dni=' + ${alumno.dni}}"><img
+                                    style="width: 70%; padding: 10px; margin-left: 10px;" th:unless="${alumno.foto !=null}"
+                                    class="card-img rounded" th:src="@{'/images/default.jpeg'}"
+                                    th:alt="${alumno.foto}" /></a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <span class="card-title"
+                                    th:if="${alumno.salita}" th:text="'Salita: ' + ${alumno.salita.nombre}"></span><h5 class="card-title" th:text="'Alumno: ' + ${alumno.nombre} + ' ' + ${alumno.apellido}"
+                                    th:value="${alumno.nombre}">Alumno:</h5>
+                                <ul class="list-group list-group-horizontal-lg">
+                                    <a th:if="${alumno.enClase == false}" th:id="entrada" th:href="@{/actividades/registraactividad(tipoActividad='ENTRADA',dni=${alumno.dni})}"><img
+                                            th:src="@{/Iconos/ingreso.png}" alt="entrada"
+                                            style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <a th:if="${alumno.enClase == true}" th:href="@{/actividades/registraactividad(tipoActividad='SALIDA',dni=${alumno.dni})}"><img
+                                            th:src="@{/Iconos/salida.png}" alt="salida"
+                                            style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <a th:if="${alumno.durmiendo == false} and ${alumno.enClase == true}" th:href="@{/actividades/registraactividad(tipoActividad='DORMIDO',dni=${alumno.dni})}"><img
+                                            th:src="@{/Iconos/sleep.png}" alt="sueño"
+                                            style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <a th:if="${alumno.durmiendo == true} and ${alumno.enClase == true}" th:href="@{/actividades/registraactividad(tipoActividad='DESPIERTO',dni=${alumno.dni})}"><img
+                                            th:src="@{/Iconos/despierto.png}" alt="despierto"
+                                            style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <!--POPUP-->
+                                    <a th:if="${alumno.enClase == true}" href="#" data-toggle="modal"
+                                       th:data-target="'#comidas' + ${alumno.dni}"><img
+                                            th:src="@{/Iconos/comida.png}" alt="comida"
+                                            style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <div class="modal fade" th:id="'comidas' + ${alumno.dni}"
+                                         tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Registro
+                                                        de comidas:</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                                <th scope="col">DESAYUNO</th>
+                                                                <th scope="col">ALMUERZO</th>
+                                                                <th scope="col">MERIENDA</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='DESAYUNO',tipoCantidad='TODO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-success">Todo</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='ALMUERZO',tipoCantidad='TODO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-success">Todo</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='MERIENDA',tipoCantidad='TODO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-success">Todo</button></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='DESAYUNO',tipoCantidad='POCO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-warning">Poco</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='ALMUERZO',tipoCantidad='POCO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-warning">Poco</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='MERIENDA',tipoCantidad='POCO',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-warning">Poco</button></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='DESAYUNO',tipoCantidad='NADA',dni=${alumno.dni})}"><button
+                                                                            type="button" class="btn btn-danger">Nada</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='ALMUERZO',tipoCantidad='NADA',dni=${alumno.dni})}"><button
+                                                                            type="submit" class="btn btn-danger">Nada</button></a></td>
+                                                                <td>
+                                                                    <a th:href="@{/actividades/registraactividad(tipoActividad='MERIENDA',tipoCantidad='NADA',dni=${alumno.dni})}"><button
+                                                                            type="submit" class="btn btn-danger">Nada</button></a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--POPUP-->
+                                    <a th:if="${alumno.enClase == true}" href="#" data-toggle="modal"
+                                       th:data-target="'#leche'  + ${alumno.dni}"><img
+                                            th:src="@{/Iconos/mema.png}" alt="mema"
+                                            style="width: 70px;height: 70px; margin-top: 25px;" /></a>
+                                    <div class="modal fade" th:id="'leche' + ${alumno.dni}"
+                                         tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-sm" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Cantidad
+                                                        de leche</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="btn-group-vertical" role="group"
+                                                         aria-label="Basic example">
+                                                        <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=30, dni=${alumno.dni})}"
+                                                           role="button">30ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=60, dni=${alumno.dni})}"
+                                                           role="button">60ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=90, dni=${alumno.dni})}"
+                                                           role="button">90ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=120, dni=${alumno.dni})}"
+                                                           role="button">120ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=150, dni=${alumno.dni})}"
+                                                           role="button">150ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=180, dni=${alumno.dni})}"
+                                                           role="button">180ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=210, dni=${alumno.dni})}"
+                                                           role="button">210ml</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='LECHE',cantidadLeche=240, dni=${alumno.dni})}"
+                                                           role="button">240ml</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--POPUP-->
+                                    <a th:if="${alumno.enClase == true}" href="#" data-toggle="modal"
+                                       th:data-target="'#panial' + ${alumno.dni}"
+                                       th:value="${alumno.dni}"><img
+                                            th:src="@{/Iconos/panial.png}" alt="pañal"
+                                            style="width: 70px; height: 70px; margin-top: 25px;" /></a>
+                                    <div class="modal fade bd-example-modal-sm"
+                                         th:id="'panial' + ${alumno.dni}" tabindex="-1" role="dialog"
+                                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Motivo
+                                                        del cambio</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="btn-group-vertical" role="group"
+                                                         aria-label="Basic example">
+                                                        <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='PANIAL',tipoPanial='PIS', dni=${alumno.dni})}"
+                                                           role="button">Pis</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='PANIAL',tipoPanial='CACA', dni=${alumno.dni})}"
+                                                           role="button">Caca</a> <a class="btn btn-info"
+                                                           th:href="@{/actividades/registraactividad(tipoActividad='PANIAL',tipoPanial='PIS_Y_CACA', dni=${alumno.dni})}"
+                                                           role="button">Ambos</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--POPUP-->
+                                    <a th:if="${alumno.enClase == true}" href="#" data-toggle="modal" th:data-target="'#observacion' + ${alumno.dni}"
+                                       th:value="${alumno.dni}"><img th:src="@{/Iconos/obs.png}"
+                                                                  alt="observaciones"
+                                                                  style="width: 70px; height: 70px; margin-top: 25px; margin-right: 10px;" /></a>
+                                    <div class="modal fade" th:id="'observacion' + ${alumno.dni}" tabindex="-1"
+                                         role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Observaciones:</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form" id="formulario" method="post" th:action="@{/actividades/registraactividad/observacion}">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" id="txtObservacion" name="txtObservacion"></textarea>
+                                                        </div>
+                                                        <input type="hidden" th:value="${alumno.dni}" name="dniAlumno" id="dniAlumno" />
+                                                        <div class="modal-footer">
+                                                            <input class="btn btn-info" type="submit" value="Guardar" />
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+        </div>
+        <footer th:replace="/layout :: footer"> </footer>
+        <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    </body>
+</html>

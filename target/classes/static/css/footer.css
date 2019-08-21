@@ -1,0 +1,39 @@
+footer {
+    background: var(--bggradient);
+    overflow-x: hidden;
+    padding: 14vmin 18vmin;
+}
+
+footer .text {
+    color: darkgrey;
+}
+
+footer p>span {
+    color: white;
+}
+
+footer input {
+    border: none !important;
+}
+
+footer input::placeholder {
+    color: white !important;
+}
+
+footer .input-group .input-group-text {
+    background: var(--bggradient);
+    border: none
+}
+
+footer .icono .fab{
+    padding: 0 0.5em;
+    color: white;
+}
+
+footer {
+    --Sniglet-font: "Sniglet", cursive;
+    --Rubik: "Rubik", cursive;
+    --Patua: "Patua One", cursive;
+    --Lobster: "lobster", cursive;
+    --bggradient: linear-gradient(to bottom, #4286f4, #373b44);
+}
